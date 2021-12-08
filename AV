@@ -1,0 +1,257 @@
+```{r}
+#Phenotypes_1 <- read.csv("Phenotypes_1.csv")
+#AV <- read.csv("AV.csv")
+#AVg <- read.csv("AVg.csv")
+ggplot(data = na.omit(Phenotypes_1)) +
+  aes(x=L4, fill=Species) +
+geom_bar(na.rm = TRUE) +
+  ggtitle("Number of L4 larvae by Species")+
+  xlab("L4 larvae") + 
+  ylab("Number of Samples")  
+ ggplot(data = na.omit(Phenotypes_1)) +
+  aes(x=Host_Kills, fill=Species) +
+geom_bar(na.rm = TRUE) +
+  ggtitle("Number of Host Kills by Species")+
+  xlab("Host Kills") + 
+  ylab("Number of Samples") 
+ 
+ ggplot(data = na.omit(Phenotypes_1)) +
+  aes(x=L4, fill=Phenotypes) +
+geom_bar(na.rm = TRUE) +
+  ggtitle("Phenotypes and L4 larvae")+
+  xlab("L4 larvae") + 
+  ylab("Number of Samples")  
+ ggplot(data = na.omit(Phenotypes_1)) +
+  aes(x=Host_Kills, fill=Phenotypes) +
+geom_bar(na.rm = TRUE) +
+  ggtitle("Phenotypes and Host Kills")+
+  xlab("Host Kills") + 
+  ylab("Number of Samples")
+ 
+ ggplot(data = Phenotypes_1) +
+  aes(x=Species, fill=Phenotypes) +
+geom_bar(na.rm = TRUE) +
+  ggtitle("Phenotypes of Species")+
+  xlab("Species") + 
+  ylab("Number of Samples")  
+ 
+Phenotypes1 <- Phenotypes_1 %>% group_by(Species, Phenotypes) %>% summarise(n = n())%>%
+mutate(Percent = n/sum(n))
+print(Phenotypes1)
+```
+```{r ANOVA}
+phen_anova  <-  aov(L4~Species, data=Phenotypes_1) 
+phen_anova1  <-  aov(Host_Kills~Species, data=Phenotypes_1) 
+summary(phen_anova)
+summary(phen_anova1)
+Phenotypes_1 %>% group_by(Phenotypes, Species) %>%
+  summarise(
+    count = n(),
+    mean = mean(L4, na.rm = TRUE),
+    sd = sd(L4, na.rm = TRUE)
+  )
+Phenotypes_1 %>% 
+  ggplot() + 
+  aes(y = L4, x = Species, 
+      fill = Species) + 
+  geom_boxplot()
+Phenotypes_1 %>% group_by(Phenotypes, Species) %>%
+  summarise(
+    count = n(),
+    mean = mean(Host_Kills, na.rm = TRUE),
+    sd = sd(Host_Kills, na.rm = TRUE)
+  )
+Phenotypes_1 %>% 
+  ggplot() + 
+  aes(y = Host_Kills, x = Species, 
+      fill = Species) + 
+  geom_boxplot()
+
+```
+```{r gene 1}
+gen1p40 = table(AVg$Phenotype, AVg$gen1p40)
+chisq.test(gen1p40)
+prop.table(gen1p40)
+barplot(gen1p40,col=c("lightblue","darkred","green"), main ="gen1p40")#blue inter, red resistant, green sus
+#legend("topright",legend=c("intermediate","resistant","susceptible"),col=c("lightblue","darkred","green"))
+gen1p76 = table(AVg$Phenotype, AVg$gen1p76)
+chisq.test(gen1p76)
+barplot(gen1p76,col=c("lightblue","darkred","green"), main ="gen1p76")#blue inter, red resistant, green sus
+
+gen1p186 = table(AVg$Phenotype, AVg$gen1p186)
+chisq.test(gen1p186)
+barplot(gen1p186,col=c("lightblue","darkred","green"), main ="gen1p186")#blue inter, red resistant, green sus
+```
+```{r gene 2}
+gen2p43 = table(AVg$Phenotype, AVg$gen2p43)
+chisq.test(gen2p43)
+barplot(gen2p43,col=c("lightblue","darkred","green"), main ="gen2p43")#blue inter, red resistant, green sus
+
+gen2p47 = table(AVg$Phenotype, AVg$gen2p47)
+chisq.test(gen2p47)
+barplot(gen2p47,col=c("lightblue","darkred","green"), main ="gen2p47")#blue inter, red resistant, green sus
+prop.table(gen2p47)
+gen2p135 = table(AVg$Phenotype, AVg$gen2p135)
+chisq.test(gen2p135)
+
+gen2p226 = table(AVg$Phenotype, AVg$gen2p226)
+chisq.test(gen2p226)
+barplot(gen2p226,col=c("lightblue","darkred","green"), main ="gen2p226")#blue inter, red resistant, green sus
+prop.table(gen2p226)
+```
+```{r gen 3}
+gen3p40 = table(AVg$Phenotype, AVg$gen3p40)
+chisq.test(gen3p40)
+barplot(gen3p40,col=c("lightblue","darkred","green"), main ="gen3p40")#blue inter, red resistant, green sus
+
+gen3p118 = table(AVg$Phenotype, AVg$gen3p118)
+chisq.test(gen3p118)
+
+gen3p123 = table(AVg$Phenotype, AVg$gen3p123)
+chisq.test(gen3p123)
+barplot(gen3p123,col=c("lightblue","darkred","green"), main ="gen3p123")#blue inter, red resistant, green sus
+
+gen3p169 = table(AVg$Phenotype, AVg$gen3p169)
+chisq.test(gen3p169)
+barplot(gen3p169,col=c("lightblue","darkred","green"), main ="gen3p169")#blue inter, red resistant, green sus
+
+gen3p221 = table(AVg$Phenotype, AVg$gen3p221)
+chisq.test(gen3p221)
+barplot(gen3p221,col=c("lightblue","darkred","green"), main ="gen3p221")#blue inter, red resistant, green sus
+
+gen3p241 = table(AVg$Phenotype, AVg$gen3p241)
+chisq.test(gen3p241)
+barplot(gen3p241,col=c("lightblue","darkred","green"), main ="gen3p241")#blue inter, red resistant, green sus
+
+gen3p277 = table(AVg$Phenotype, AVg$gen3p277)
+chisq.test(gen3p277)
+barplot(gen3p277,col=c("lightblue","darkred","green"), main ="gen3p277")#blue inter, red resistant, green sus
+
+gen3p441 = table(AVg$Phenotype, AVg$gen3p441)
+chisq.test(gen3p441)
+barplot(gen3p441,col=c("lightblue","darkred","green"), main ="gen3p441")#blue inter, red resistant, green sus
+
+gen3p458 = table(AVg$Phenotype, AVg$gen3p458)
+chisq.test(gen3p458)
+barplot(gen3p458,col=c("lightblue","darkred","green"), main ="gen3p458")#blue inter, red resistant, green sus
+
+gen3p492 = table(AVg$Phenotype, AVg$gen3p492)
+chisq.test(gen3p492)
+barplot(gen3p492,col=c("lightblue","darkred","green"), main ="gen3p492")#blue inter, red resistant, green sus
+```
+```{r gene 4}
+gen4p39 = table(AVg$Phenotype, AVg$gen4p39)
+chisq.test(gen4p39)
+barplot(gen4p39,col=c("lightblue","darkred","green"), main ="gen4p39")#blue inter, red resistant, green sus
+
+gen4p86 = table(AVg$Phenotype, AVg$gen4p86)
+chisq.test(gen4p86)
+
+gen4p102 = table(AVg$Phenotype, AVg$gen4p102)
+chisq.test(gen4p102)
+
+gen4p192 = table(AVg$Phenotype, AVg$gen4p192)
+chisq.test(gen4p192)
+
+gen4p204 = table(AVg$Phenotype, AVg$gen4p204)
+chisq.test(gen4p204)
+barplot(gen4p204,col=c("lightblue","darkred","green"), main ="gen4p204")#blue inter, red resistant, green sus
+
+gen4p223 = table(AVg$Phenotype, AVg$gen4p223)
+chisq.test(gen4p223)
+barplot(gen4p223,col=c("lightblue","darkred","green"), main ="gen4p223")#blue inter, red resistant, green sus
+```
+
+```{r gene 5}
+gen5p143 = table(AVg$Phenotype, AVg$gen5p143)
+chisq.test(gen5p143)
+barplot(gen5p143,col=c("lightblue","darkred","green"), main ="gen5p143")#blue inter, red resistant, green sus
+
+gen5p145 = table(AVg$Phenotype, AVg$gen5p145)
+chisq.test(gen5p145)
+barplot(gen5p145,col=c("lightblue","darkred","green"), main ="gen5p145")#blue inter, red resistant, green sus
+
+gen5p151 = table(AVg$Phenotype, AVg$gen5p151)
+chisq.test(gen5p151)
+barplot(gen5p151,col=c("lightblue","darkred","green"), main ="gen5p151")#blue inter, red resistant, green sus
+
+gen5p160 = table(AVg$Phenotype, AVg$gen5p160)
+chisq.test(gen5p160)
+barplot(gen5p160,col=c("lightblue","darkred","green"), main ="gen5p160")#blue inter, red resistant, green sus
+
+gen5p181 = table(AVg$Phenotype, AVg$gen5p181)
+chisq.test(gen5p181)
+```
+```{r gene 6}
+gen6p110 = table(AVg$Phenotype, AVg$gen6p110)
+chisq.test(gen6p110)
+barplot(gen6p110,col=c("lightblue","darkred","green"), main ="gen6p110")#blue inter, red resistant, green sus
+
+gen6p198 = table(AVg$Phenotype, AVg$gen6p198)
+chisq.test(gen6p198)
+barplot(gen6p198,col=c("lightblue","darkred","green"), main ="gen6p198")#blue inter, red resistant, green sus
+
+gen6p300 = table(AVg$Phenotype, AVg$gen6p300)
+chisq.test(gen6p300)
+barplot(gen6p300,col=c("lightblue","darkred","green"), main ="gen6p300")#blue inter, red resistant, green sus
+
+gen6p312 = table(AVg$Phenotype, AVg$gen6p312)
+chisq.test(gen6p312)
+
+gen6p364 = table(AVg$Phenotype, AVg$gen6p364)
+chisq.test(gen6p364)
+barplot(gen6p364,col=c("lightblue","darkred","green"), main ="gen6p364")#blue inter, red resistant, green sus
+
+gen6p447 = table(AVg$Phenotype, AVg$gen6p447)
+chisq.test(gen6p447)
+barplot(gen6p447,col=c("lightblue","darkred","green"), main ="gen6p447")#blue inter, red resistant, green sus
+```
+```{r MCA}
+sigAVs <-  dplyr::select(AVg,Phenotype,gen1p40,gen1p186,gen2p43,gen2p47,gen2p226,gen3p169,gen3p123,gen3p241,gen3p221,gen3p277,gen3p40,gen3p441,gen3p492,gen4p39,gen5p143,gen5p145,gen5p151,gen5p160,gen6p110,gen6p198,gen6p300,gen6p364,gen6p447)#p-value < 0.05
+sigAVs2 <- dplyr::select(AVg,Phenotype,gen1p40,gen1p186,gen3p221,gen3p40,gen3p492,gen4p39,gen6p110,gen6p198,gen6p300,gen6p364) # p-value < 0.001
+MCA(sigAVs2,ncp = 5, graph = TRUE)
+AV1 <- AVg[1:90,3:38]
+gen1 <- dplyr::select(AVg,gen1p40,gen1p186)
+gen1mca <- MCA(na.omit(gen1), ncp = 5, graph = TRUE)
+plotellipses(gen1mca)
+gen2 <- dplyr::select(AVg,gen2p43,gen2p47,gen2p226)
+gen2mca <- MCA(na.omit(gen2), ncp = 5, graph = TRUE)
+plotellipses(gen2mca)
+gen3 <- dplyr::select(AVg,gen3p169,gen3p123,gen3p241,gen3p221,gen3p277,gen3p40,gen3p441,gen3p492)
+gen3mca <- MCA(na.omit(gen3), ncp = 5, graph = TRUE)
+plotellipses(gen3mca)
+gen4 <- dplyr::select(AVg,gen4p39)
+gen4mca <- MCA(na.omit(gen4), ncp = 5, graph = TRUE)
+
+gen5 <- dplyr::select(AVg,gen5p143,gen5p145,gen5p151,gen5p160)
+gen5mca<- MCA(na.omit(gen5), ncp = 5, graph = TRUE)
+plotellipses(gen5mca)
+gen6 <- dplyr::select(AVg,gen6p110,gen6p198,gen6p300,gen6p364,gen6p447)
+gen6mca <-MCA(na.omit(gen6), ncp = 5, graph = TRUE)
+plotellipses(gen6mca)
+
+gen3_2 <-dplyr::select(AVg,gen3p221,gen3p40,gen3p492)
+gen3mca2 <- MCA(na.omit(gen3_2), ncp = 5, graph = TRUE)
+plotellipses(gen3mca2)
+```
+data <- makeGenotypes(sigAVs)
+locsnp1 <- c("gen1p40","gen1p186","gen2p43","gen2p47","gen2p226","gen3p169","gen3p123","gen3p241","gen3p221","gen3p277","gen3p40","gen3p441","gen3p492","gen4p39","gen5p143","gen5p145","gen5p151","gen5p160","gen6p110","gen6p198","gen6p300","gen6p364","gen6p447")
+sig <- LD(data)
+
+plot(sig$`P-value`,sig$D) #p-value by linkage disequilibrium estimate
+plot(sig$`P-value`,sig$`D'`)#p-value by scaled linkage disequilibrium estimate
+plot(sig$`P-value`,sig$r)#p-value by correlation
+plot(sig$`P-value`,sig$n)
+LDheatmap::LDheatmap(data, SNP.name = locsnp1)
+sig
+LDplot(sig, digits = 3, which=c("D"))
+data1 <- makeGenotypes(sigAVs2)
+locsnp2 <- c("gen1p40","gen1p186","gen3p221","gen3p40","gen3p492","gen4p39","gen6p110","gen6p198","gen6p300","gen6p364")
+sig2 <- LD(data1)
+LDplot(sig2, digits = 3, which=c("r"))
+LDplot(sig2, digits = 3, which=c("D'"))
+LDplot(sig2)
+legend(1,1,legend=c("gen1p40","gen1p186","gen3p221","gen3p40","gen3p492","gen4p39","gen6p110","gen6p198","gen6p300","gen6p364"))
+heat <- LDheatmap(data1,SNP.name = locsnp2)
+LDtable(sig2, colorcut=c(0,0.01, 0.025, 0.5, 0.1, 1), colors = heat.colors(5),which = c("P-value","r","D'"))
+```
